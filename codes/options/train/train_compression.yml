@@ -1,0 +1,105 @@
+
+#### general settings
+
+
+# CUDA_VISIBLE_DEVICES=5,6,7,8,9 python -m torch.distributed.launch --nproc_per_node 5 --master_port 22637 train.py -opt /data_video/code/SelfC/selfc_framework/codes/options/train_v2/train_h265_suggrogate_q16_01_noclos_decay.yml --launcher pytorch
+name: train_h265_suggrogate_q16_01_noclos_decay
+use_tb_logger: true
+model: SelfC_GMM_Codec
+distortion: sr_bd
+scale: 2
+gpu_ids: [5,6,7,8,9]
+
+
+#### datasets
+
+datasets:
+  train:
+    name: VIMEO90k
+    mode: LQGTVID
+    dataroot_GT: /data_video/vimeo90k/vimeo90k/vimeo_septuplet/sequences # path to training HR images
+    dataroot_list: /data_video/vimeo90k/vimeo90k/vimeo_septuplet/sep_trainlist.txt # path to training reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 3
+    use_shuffle: true
+    n_workers: 4  # per GPU
+    batch_size: 10
+    # batch_size: 4
+    GT_size: 256
+    use_flip: true
+    use_rot: true
+    color: RGB
+
+  val:
+    name: city
+    val_batch_size: 1
+    mode: LQGTVID
+    dataroot_GT: /data_video/videoSR/city/ds_7_to_7 # path to validation HR images
+    dataroot_list: /data_video/videoSR/city/ds_7_to_7/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 3
+
+#### network structures
+
+
+network_G:
+  which_model_G:
+      subnet_type: D2DTNet
+  in_nc: 3
+  out_nc: 3
+  block_num: [4]
+  scale: 2
+  init: xavier
+  global_module: nonlocal
+  stp_blk_num: 4
+  
+  fh_loss: l2
+  h265_deart: False
+  h265_q: 16
+  lambda_corr: !!float 1e-5
+
+
+
+#### path
+
+path:
+  pretrain_model_G: 
+  strict_load: 
+  resume_state: 
+
+
+#### training settings: learning rate scheme, loss
+
+train:
+  lr_G: !!float 1e-4
+  beta1: 0.9
+  beta2: 0.999
+  niter: 1000000
+  warmup_iter: -1  # no warm up
+
+  lr_scheme: MultiStepLR
+  lr_steps: [300000,400000,500000,600000]
+  lr_gamma: 0.5
+
+  pixel_criterion_forw: l2
+  pixel_criterion_back: l1
+
+  lambda_cond_prob: 0
+  lambda_gaussian_reg: 0
+  
+  lambda_distor_loss: 0
+  manual_seed: 10
+
+  val_freq: !!float 4e33
+  noise_type: h265
+  h265_sug: true
+  lambda_fit_forw: 1
+  lambda_rec_back: 0.1
+  lambda_mimick_loss: 4
+  weight_decay_G: ~
+  gradient_clipping: 0.5
+
+
+#### logger
+
+logger:
+  print_freq: 10
+  save_checkpoint_freq: !!float 2e4

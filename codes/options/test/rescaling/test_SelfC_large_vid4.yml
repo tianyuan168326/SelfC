@@ -1,0 +1,62 @@
+name: test_SelfC_large_GMM
+suffix: ~  # add suffix to saved images
+model: SelfC_GMM
+distortion: sr_bd
+scale: 4
+crop_border: ~  # crop border when evaluation. If None(~), crop the scale pixels
+gpu_ids: [2]
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: city
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/city/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/city/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+    batch_size: 1
+  test_2:  # the 1st test dataset
+    name: walk
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/walk/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/walk/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+    batch_size: 1
+
+  test_3:  # the 1st test dataset
+    name: calendar
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/calendar/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/calendar/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+    batch_size: 1
+
+  test_4:  # the 1st test dataset
+    name: foliage
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/foliage/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/foliage/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+    batch_size: 1
+
+
+#### network
+network_G:
+  which_model_G:
+      subnet_type: D2DTNet
+  in_nc: 3
+  out_nc: 3
+  block_num: [4, 4]
+  scale: 4
+  init: xavier
+  global_module: nonlocal
+  stp_blk_num: 6
+  fh_loss: gmm
+  gmm_k: 5
+
+
+
+
+#### path
+path:
+  pretrain_model_G: ../pretrained_models/selfc_large_pretrain.pth
+  strict_load: True

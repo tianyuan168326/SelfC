@@ -1,0 +1,81 @@
+name: test_selfc_h265bf_q9
+suffix: ~  # add suffix to saved images
+model: test_codec_uvg_bf
+distortion: sr_bd
+scale: 2
+crop_border: ~  # crop border when evaluation. If None(~), crop the scale pixels
+gpu_ids: [9]
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: selfc_beauty
+    mode: LQGTVID
+    dataroot_GT: /data_video/UVG_src/selfc_beauty   # path to validation HR images
+    dataroot_list: /data_video/UVG_src/selfc_beauty/test_list.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 100
+    # sample_num: 1
+  test_2:  # the 1st test dataset
+    name: selfc_bosphorus
+    mode: LQGTVID
+    dataroot_GT: /data_video/UVG_src/selfc_bosphorus   # path to validation HR images
+    dataroot_list: /data_video/UVG_src/selfc_bosphorus/test_list.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 100
+    # sample_num: 1
+  test_3:  # the 1st test dataset
+    name: selfc_honeybee
+    mode: LQGTVID
+    dataroot_GT: /data_video/UVG_src/selfc_honeybee   # path to validation HR images
+    dataroot_list: /data_video/UVG_src/selfc_honeybee/test_list.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 100
+    # sample_num: 1
+  test_4:  # the 1st test dataset
+    name: selfc_jockey
+    mode: LQGTVID
+    dataroot_GT: /data_video/UVG_src/selfc_jockey   # path to validation HR images
+    dataroot_list: /data_video/UVG_src/selfc_jockey/test_list.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 100
+    # sample_num: 1
+  test_5:  # the 1st test dataset
+    name: selfc_readysetgo
+    mode: LQGTVID
+    dataroot_GT: /data_video/UVG_src/selfc_readysetgo   # path to validation HR images
+    dataroot_list: /data_video/UVG_src/selfc_readysetgo/test_list.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 100
+    # sample_num: 1
+  test_6:  # the 1st test dataset
+    name: selfc_shakendry
+    mode: LQGTVID
+    dataroot_GT: /data_video/UVG_src/selfc_shakendry   # path to validation HR images
+    dataroot_list: /data_video/UVG_src/selfc_shakendry/test_list.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 100
+    # sample_num: 1
+  test_7:  # the 1st test dataset
+    name: selfc_yachtride
+    mode: LQGTVID
+    dataroot_GT: /data_video/UVG_src/selfc_yachtride   # path to validation HR images
+    dataroot_list: /data_video/UVG_src/selfc_yachtride/test_list.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 100
+    # sample_num: 1
+
+#### network
+network_G:
+  which_model_G:
+      subnet_type: D2DTNet
+  in_nc: 3
+  out_nc: 3
+  block_num: [4]
+  scale: 2
+  init: xavier
+  global_module: nonlocal
+  stp_blk_num: 4
+  h265_deart: False
+  h265_q: 9
+  h265_keyint: 12
+  h265_all_default: true
+  fh_loss: l2
+
+
+#### path
+path:
+  pretrain_model_G: /data_video/code/SelfC/selfc_framework/experiments/train_h265_suggrogate_q16_01_noclos_decay/models/300000_G.pth
+  strict_load: false
