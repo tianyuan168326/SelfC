@@ -2,13 +2,13 @@
 #### general settings
 
 
-# CUDA_VISIBLE_DEVICES=5,6,7,8,9 python -m torch.distributed.launch --nproc_per_node 5 --master_port 22637 train.py -opt /data_video/code/SelfC/selfc_framework/codes/options/train_v2/train_h265_suggrogate_q16_01_noclos_decay.yml --launcher pytorch
+# python -m torch.distributed.launch --nproc_per_node 2 --master_port 22637 train.py -opt ./options/train/train_compression.yml --launcher pytorch
 name: train_h265_suggrogate
 use_tb_logger: true
 model: SelfC_GMM_Codec
 distortion: sr_bd
 scale: 2
-gpu_ids: [5,6,7,8,9]
+gpu_ids: [0,1]
 
 
 #### datasets
@@ -19,22 +19,22 @@ datasets:
     mode: LQGTVID
     dataroot_GT: /media/ps/SSD/tianyuan/vimeo_septuplet/sequences # path to training HR images
     dataroot_list: /media/ps/SSD/tianyuan/vimeo_septuplet/sep_trainlist.txt # path to training reference LR images, not necessary, if not provided, LR images will be generated in dataloader
-    video_len: 7
+    video_len: 3
     use_shuffle: true
     n_workers: 2  # per GPU
-    batch_size: 8
+    batch_size: 12
     GT_size: 144
     use_flip: true
     use_rot: true
     color: RGB
 
-  val:
+  val1:
     name: city
     val_batch_size: 1
     mode: LQGTVID
     dataroot_GT: /media/ps/SSD/tianyuan/videoSR/city/ds_7_to_7_new # path to validation HR images
     dataroot_list: /media/ps/SSD/tianyuan/videoSR/city/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
-    video_len: 7
+    video_len: 3
 
 #### network structures
 
@@ -54,6 +54,8 @@ network_G:
   h265_deart: False
   h265_q: 16
   lambda_corr: !!float 1e-5
+  stp_hidden_c: 24 
+  stp_denseblock_innerc: 12
 
 
 
@@ -93,6 +95,7 @@ train:
   lambda_fit_forw: 1
   lambda_rec_back: 0.1
   lambda_mimick_loss: 4
+  loss_multiplier: 1000
   weight_decay_G: ~
   gradient_clipping: 0.5
 
