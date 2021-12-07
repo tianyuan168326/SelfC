@@ -18,6 +18,7 @@ tb_logger/*
 *.caffemodel
 *.mat
 *.npy
+*.pth
 
 # latex
 *.aux

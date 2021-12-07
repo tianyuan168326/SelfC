@@ -91,10 +91,8 @@ class BaseModel():
         load_net_clean = OrderedDict()  # remove unnecessary 'module.'
         for k, v in load_net.items():
            
-            # if "ebm_energy_discrete_set_transform" in k:
-            #     continue
-            # if "weight_rgb_" in k:
-            #     continue
+            if "Quantization_H265_Suggrogate" in k:
+                continue
       
        
 

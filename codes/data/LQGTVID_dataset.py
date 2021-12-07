@@ -211,9 +211,7 @@ class LQGTVIDDataset(data.Dataset):
 		elif video_len == 7:
 			GT_paths = GT_path[0:video_len]
 		elif video_len:
-			print("tesing mode")
 			GT_paths = GT_path[0:video_len]
-			# GT_paths = GT_path
 		
 		for img_path in GT_paths:
 			# exit(0)

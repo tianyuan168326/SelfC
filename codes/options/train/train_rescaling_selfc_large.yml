@@ -1,0 +1,127 @@
+
+#  python -m torch.distributed.launch --nproc_per_node 2 --master_port 2478 train.py -opt ./options/train/train_rescaling_selfc_large.yml --launcher pytorch
+
+#### general settings
+
+name: SelfC_large_GMM_STP6
+use_tb_logger: true
+model: SelfC_GMM
+distortion: sr_bd
+scale: 4
+
+gpu_ids: [4,5]
+
+
+#### datasets
+
+datasets:
+  train:
+    name: VIMEO90k
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/vimeo_septuplet/sequences # path to training HR images
+    dataroot_list: /media/ps/SSD/tianyuan/vimeo_septuplet/sep_trainlist.txt # path to training reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+    use_shuffle: true
+    n_workers: 2  # per GPU
+    batch_size: 8
+    GT_size: 144
+    use_flip: true
+    use_rot: true
+    color: RGB
+
+  val1:
+    name: city
+    val_batch_size: 1
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/city/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/city/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+  val2:
+    name: walk
+    val_batch_size: 1
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/walk/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/walk/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+  val3:
+    name: calendar
+    val_batch_size: 1
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/calendar/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/calendar/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+  val4:
+    name: foliage
+    val_batch_size: 1
+    mode: LQGTVID
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/foliage/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/foliage/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
+    
+
+#### network structures
+
+network_G:
+  which_model_G:
+      subnet_type: D2DTNet
+  in_nc: 3
+  out_nc: 3
+  block_num: [4, 4]
+  scale: 4
+  init: xavier
+  global_module: nonlocal
+  stp_blk_num: 6
+  fh_loss: gmm
+  gmm_k: 5
+  # stp_d2d_inner_c: 32
+  # stp_temporal_c: 32
+  # stp_blk_num: 6
+  # fh_loss: l2
+  
+
+
+
+#### path
+
+path:
+  pretrain_model_G: 
+  strict_load: 
+  resume_state: 
+
+
+
+#### training settings: learning rate scheme, loss
+
+train:
+  lr_G: !!float 1e-4
+  beta1: 0.9
+  beta2: 0.999
+  niter: 400000
+  warmup_iter: -1  # no warm up
+
+  lr_scheme: MultiStepLR
+  lr_steps: [100000, 200000,300000]
+  lr_gamma: 0.5
+
+  pixel_criterion_forw: l2
+  pixel_criterion_back: l1
+
+  lambda_cond_prob: 0
+  lambda_gaussian_reg: 0
+
+  manual_seed: 10
+
+  val_freq: !!float 1e4
+
+  lambda_fit_forw: 1
+  lambda_rec_back: 1
+  lambda_ce_forw: 1
+  weight_decay_G: !!float 1e-14
+  gradient_clipping: 10
+
+
+#### logger
+
+logger:
+  print_freq: 10
+  save_checkpoint_freq: !!float 2e4

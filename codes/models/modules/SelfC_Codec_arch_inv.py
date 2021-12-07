@@ -18,8 +18,6 @@ from models.modules.Noise import Noise
 from models.modules.Quantization_BPG import Quantization_BPG
 from models.modules.Quantization_video_compression import Quantization_H265
 from models.modules.Quantization_h265_rgb_stream import Quantization_H265_Stream
-# from models.modules.Quantization_h265_suggrogate import Quantization_H265_Suggrogate
-# from models.modules.Quantization_h265_suggrogate_correct import Quantization_H265_Suggrogate
 from models.modules.Quantization_h265_suggrogate_correlation1 import Quantization_H265_Suggrogate
 from global_var import *
 import torchvision.ops
@@ -76,7 +74,7 @@ class PixelUnshuffle(nn.Module):
 		# (N, C*bs^2, H//bs, W//bs)
 		x = x.view(N, C * S * S, H // S, W // S)  
 		return x
-TEMP_LEN = 5
+TEMP_LEN = 3
 class FrequencyAnalyzer(nn.Module):
 	def __init__(self, channel_in,k=2):
 		super(FrequencyAnalyzer, self).__init__()
@@ -245,9 +243,9 @@ class STPNet(nn.Module):
 		self.stp_blk_num = self.stp_blk_num-2
 		c = 32
 		c = opt["stp_hidden_c"]
-		self.local_m1 = D2DTInput(3,c,INN_init=False)
-		self.local_m2 = D2DTInput(c,c,INN_init=False)
-		
+		gc = opt["stp_denseblock_innerc"]
+		self.local_m1 = D2DTInput(3,c,gc =gc, INN_init=False)
+		self.local_m2 = D2DTInput(c,c,gc =gc,INN_init=False)
 		if self.global_module == 'nonlocal':
 			self.global_m1 = GlobalAgg(c)
 			self.global_m2 = GlobalAgg(c)
@@ -259,7 +257,7 @@ class STPNet(nn.Module):
 			self.global_m2 = GroupedGlobalDeformAgg(c)
 		self.other_stp_modules = []
 		for i in range(self.stp_blk_num):
-			self.other_stp_modules +=[D2DTInput(c,c,INN_init=False)]
+			self.other_stp_modules +=[D2DTInput(c,c,gc =gc,INN_init=False)]
 			if self.global_module == 'nonlocal':
 				self.other_stp_modules +=[GlobalAgg(c)]
 			if self.global_module == 'deform':
@@ -272,14 +270,14 @@ class STPNet(nn.Module):
 		self.hf_dim = 3*(self.scale**2)
 
 		if self.fh_loss == "l2":
-			self.tail_gmm = [
+			self.tail = [
 				nn.LeakyReLU(negative_slope=0.2, inplace=True),
 				nn.Conv3d(c, self.hf_dim, 1, 1, 0, bias=True)
 			]
-			self.tail_gmm = nn.Sequential(*self.tail_gmm)
+			self.tail = nn.Sequential(*self.tail)
 		elif self.fh_loss == "gmm":
 			MLP_dim = c
-			self.tail_gmm = [
+			self.tail = [
 				nn.LeakyReLU(negative_slope=0.2, inplace=True),
 				nn.Conv3d(c, MLP_dim*2, 1, 1, 0, bias=True),
 				nn.LeakyReLU(negative_slope=0.2, inplace=True),
@@ -287,10 +285,10 @@ class STPNet(nn.Module):
 				nn.LeakyReLU(negative_slope=0.2, inplace=True),
 				nn.Conv3d(MLP_dim*4, self.hf_dim * self.K*3, 1, 1, 0, bias=True)
 			]
-			self.tail_gmm = nn.Sequential(*self.tail_gmm)
+			self.tail = nn.Sequential(*self.tail)
 		elif self.fh_loss == "gmm_thin":
 			MLP_dim = c
-			self.tail_gmm = [
+			self.tail = [
 				nn.LeakyReLU(negative_slope=0.2, inplace=True),
 				nn.Conv3d(c, MLP_dim, 1, 1, 0, bias=True),
 				nn.ReLU( inplace=True),
@@ -298,7 +296,7 @@ class STPNet(nn.Module):
 				nn.ReLU( inplace=True),
 				nn.Conv3d(MLP_dim, self.hf_dim * self.K*3, 1, 1, 0, bias=True)
 			]
-			self.tail_gmm = nn.Sequential(*self.tail_gmm)
+			self.tail = nn.Sequential(*self.tail)
 
 		
 	def forward(self, x):
@@ -322,7 +320,7 @@ class STPNet(nn.Module):
 		t = GlobalVar.get_Temporal_LEN()
 		b = bt//t
 		temp  = temp.reshape(b,t,c,w,h).transpose(1,2)
-		self.parameters = self.tail_gmm(temp)
+		self.parameters = self.tail(temp)
 		if self.fh_loss == "l2":
 			return
 

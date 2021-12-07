@@ -107,6 +107,7 @@ class SelfCModel(BaseModel):
 			self.real_H = self.real_H.to(self.device)
 			# if "LQ" in data:
 			#     self.ref_L = self.ref_L.to(self.device)
+		print(self.real_H.size())
 		self.real_H = self.real_H.transpose(1,2).reshape(-1,3,self.real_H.size(3),self.real_H.size(4))
 		if "LQ" in data: 
 			self.ref_L = self.ref_L.transpose(1,2).reshape(-1,3,self.ref_L.size(3),self.ref_L.size(4))

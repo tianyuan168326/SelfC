@@ -3,7 +3,7 @@
 
 
 # CUDA_VISIBLE_DEVICES=5,6,7,8,9 python -m torch.distributed.launch --nproc_per_node 5 --master_port 22637 train.py -opt /data_video/code/SelfC/selfc_framework/codes/options/train_v2/train_h265_suggrogate_q16_01_noclos_decay.yml --launcher pytorch
-name: train_h265_suggrogate_q16_01_noclos_decay
+name: train_h265_suggrogate
 use_tb_logger: true
 model: SelfC_GMM_Codec
 distortion: sr_bd
@@ -17,14 +17,13 @@ datasets:
   train:
     name: VIMEO90k
     mode: LQGTVID
-    dataroot_GT: /data_video/vimeo90k/vimeo90k/vimeo_septuplet/sequences # path to training HR images
-    dataroot_list: /data_video/vimeo90k/vimeo90k/vimeo_septuplet/sep_trainlist.txt # path to training reference LR images, not necessary, if not provided, LR images will be generated in dataloader
-    video_len: 3
+    dataroot_GT: /media/ps/SSD/tianyuan/vimeo_septuplet/sequences # path to training HR images
+    dataroot_list: /media/ps/SSD/tianyuan/vimeo_septuplet/sep_trainlist.txt # path to training reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
     use_shuffle: true
-    n_workers: 4  # per GPU
-    batch_size: 10
-    # batch_size: 4
-    GT_size: 256
+    n_workers: 2  # per GPU
+    batch_size: 8
+    GT_size: 144
     use_flip: true
     use_rot: true
     color: RGB
@@ -33,9 +32,9 @@ datasets:
     name: city
     val_batch_size: 1
     mode: LQGTVID
-    dataroot_GT: /data_video/videoSR/city/ds_7_to_7 # path to validation HR images
-    dataroot_list: /data_video/videoSR/city/ds_7_to_7/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
-    video_len: 3
+    dataroot_GT: /media/ps/SSD/tianyuan/videoSR/city/ds_7_to_7_new # path to validation HR images
+    dataroot_list: /media/ps/SSD/tianyuan/videoSR/city/ds_7_to_7_new/testlist.txt  # path to validation reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+    video_len: 7
 
 #### network structures
 

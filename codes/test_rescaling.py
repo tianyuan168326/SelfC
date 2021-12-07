@@ -80,7 +80,7 @@ def cal_metric(val_loader,val_ds_name,model,opt,dataset_dir):
 		# 	break
 
 		
-		print("tesing progress {}/{}".format(idx*val_loader.batch_size, len(val_loader.dataset)))
+		print("testing progress {}/{}".format(idx*val_loader.batch_size, len(val_loader.dataset)))
 		clip_length = model.feed_data(val_data)
 		
 		model.test()
