@@ -1,0 +1,434 @@
+21-08-14 01:11:35.541 - INFO:   name: test_selfc_h265bf_q21
+  suffix: None
+  model: SelfC_GMM_Codec
+  distortion: sr_bd
+  scale: 2
+  crop_border: None
+  gpu_ids: [0]
+  datasets:[
+    test_1:[
+      name: selfc_beauty
+      mode: LQGTVID
+      dataroot_GT: /data_video/UVG_src/selfc_beauty
+      dataroot_list: /data_video/UVG_src/selfc_beauty/test_list.txt
+      video_len: 100
+      phase: test
+      data_type: img
+    ]
+    test_2:[
+      name: selfc_bosphorus
+      mode: LQGTVID
+      dataroot_GT: /data_video/UVG_src/selfc_bosphorus
+      dataroot_list: /data_video/UVG_src/selfc_bosphorus/test_list.txt
+      video_len: 100
+      phase: test
+      data_type: img
+    ]
+    test_3:[
+      name: selfc_honeybee
+      mode: LQGTVID
+      dataroot_GT: /data_video/UVG_src/selfc_honeybee
+      dataroot_list: /data_video/UVG_src/selfc_honeybee/test_list.txt
+      video_len: 100
+      phase: test
+      data_type: img
+    ]
+    test_4:[
+      name: selfc_jockey
+      mode: LQGTVID
+      dataroot_GT: /data_video/UVG_src/selfc_jockey
+      dataroot_list: /data_video/UVG_src/selfc_jockey/test_list.txt
+      video_len: 100
+      phase: test
+      data_type: img
+    ]
+    test_5:[
+      name: selfc_readysetgo
+      mode: LQGTVID
+      dataroot_GT: /data_video/UVG_src/selfc_readysetgo
+      dataroot_list: /data_video/UVG_src/selfc_readysetgo/test_list.txt
+      video_len: 100
+      phase: test
+      data_type: img
+    ]
+    test_6:[
+      name: selfc_shakendry
+      mode: LQGTVID
+      dataroot_GT: /data_video/UVG_src/selfc_shakendry
+      dataroot_list: /data_video/UVG_src/selfc_shakendry/test_list.txt
+      video_len: 100
+      phase: test
+      data_type: img
+    ]
+    test_7:[
+      name: selfc_yachtride
+      mode: LQGTVID
+      dataroot_GT: /data_video/UVG_src/selfc_yachtride
+      dataroot_list: /data_video/UVG_src/selfc_yachtride/test_list.txt
+      video_len: 100
+      phase: test
+      data_type: img
+    ]
+  ]
+  network_G:[
+    which_model_G:[
+      subnet_type: D2DTNet
+    ]
+    in_nc: 3
+    out_nc: 3
+    block_num: [4]
+    scale: 2
+    init: xavier
+    global_module: nonlocal
+    stp_blk_num: 4
+    h265_deart: False
+    h265_q: 21
+    h265_keyint: -1
+    h265_all_default: True
+    fh_loss: l2
+  ]
+  path:[
+    pretrain_model_G: /data_video/code/SelfC/selfc_framework/experiments/train_h265_suggrogate_q16_01_noclos_decay/models/300000_G.pth
+    strict_load: False
+    root: /data_video/code/SelfC/selfc_framework
+    results_root: /data_video/code/SelfC/selfc_framework/results/test_selfc_h265bf_q21
+    log: /data_video/code/SelfC/selfc_framework/results/test_selfc_h265bf_q21
+  ]
+  is_train: False
+
+21-08-14 01:11:35.546 - INFO: Dataset [LQGTVIDDataset - selfc_beauty] is created.
+21-08-14 01:11:35.546 - INFO: Number of test images in [selfc_beauty]: 6
+21-08-14 01:11:35.549 - INFO: Dataset [LQGTVIDDataset - selfc_bosphorus] is created.
+21-08-14 01:11:35.549 - INFO: Number of test images in [selfc_bosphorus]: 6
+21-08-14 01:11:35.551 - INFO: Dataset [LQGTVIDDataset - selfc_honeybee] is created.
+21-08-14 01:11:35.551 - INFO: Number of test images in [selfc_honeybee]: 6
+21-08-14 01:11:35.554 - INFO: Dataset [LQGTVIDDataset - selfc_jockey] is created.
+21-08-14 01:11:35.554 - INFO: Number of test images in [selfc_jockey]: 6
+21-08-14 01:11:35.557 - INFO: Dataset [LQGTVIDDataset - selfc_readysetgo] is created.
+21-08-14 01:11:35.557 - INFO: Number of test images in [selfc_readysetgo]: 6
+21-08-14 01:11:35.559 - INFO: Dataset [LQGTVIDDataset - selfc_shakendry] is created.
+21-08-14 01:11:35.559 - INFO: Number of test images in [selfc_shakendry]: 3
+21-08-14 01:11:35.562 - INFO: Dataset [LQGTVIDDataset - selfc_yachtride] is created.
+21-08-14 01:11:35.562 - INFO: Number of test images in [selfc_yachtride]: 6
+21-08-14 01:11:41.294 - INFO: Network G structure: DataParallel - SelfCInvNet, with parameters: 885,524
+21-08-14 01:11:41.294 - INFO: SelfCInvNet(
+  (operations): ModuleList(
+    (0): FrequencyAnalyzer(
+      (bicubic_down): Upsample(scale_factor=(0.5, 0.5), mode=area)
+      (pixel_unshuffle): PixelUnshuffle()
+      (bicubic_up): Upsample(scale_factor=(2.0, 2.0), mode=area)
+      (pixel_shuffle): PixelShuffle(upscale_factor=2)
+    )
+    (1): InvBlockExp(
+      (F): D2DTInput(
+        (conv1): Conv3d(12, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(44, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(76, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(108, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(140, 3, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (G): D2DTInput(
+        (conv1): Conv3d(3, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(35, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(67, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(99, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(131, 12, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (H): D2DTInput(
+        (conv1): Conv3d(3, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(35, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(67, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(99, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(131, 12, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+    )
+    (2): InvBlockExp(
+      (F): D2DTInput(
+        (conv1): Conv3d(12, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(44, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(76, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(108, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(140, 3, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (G): D2DTInput(
+        (conv1): Conv3d(3, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(35, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(67, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(99, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(131, 12, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (H): D2DTInput(
+        (conv1): Conv3d(3, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(35, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(67, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(99, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(131, 12, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+    )
+    (3): InvBlockExp(
+      (F): D2DTInput(
+        (conv1): Conv3d(12, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(44, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(76, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(108, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(140, 3, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (G): D2DTInput(
+        (conv1): Conv3d(3, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(35, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(67, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(99, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(131, 12, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (H): D2DTInput(
+        (conv1): Conv3d(3, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(35, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(67, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(99, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(131, 12, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+    )
+    (4): InvBlockExp(
+      (F): D2DTInput(
+        (conv1): Conv3d(12, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(44, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(76, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(108, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(140, 3, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (G): D2DTInput(
+        (conv1): Conv3d(3, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(35, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(67, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(99, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(131, 12, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (H): D2DTInput(
+        (conv1): Conv3d(3, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(35, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(67, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(99, 32, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(131, 12, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+    )
+  )
+  (stp_net): STPNet(
+    (local_m1): D2DTInput(
+      (conv1): Conv3d(3, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+      (conv2): Conv3d(15, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+      (conv3): Conv3d(27, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+      (conv4): Conv3d(39, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+      (conv5): Conv3d(51, 24, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+      (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (local_m2): D2DTInput(
+      (conv1): Conv3d(24, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+      (conv2): Conv3d(36, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+      (conv3): Conv3d(48, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+      (conv4): Conv3d(60, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+      (conv5): Conv3d(72, 24, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+      (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (global_m1): GlobalAgg(
+      (fc): Linear(in_features=1024, out_features=1, bias=True)
+      (proj1): Conv2d(24, 24, kernel_size=(1, 1), stride=(1, 1))
+      (proj2): Linear(in_features=24, out_features=24, bias=True)
+      (proj3): Linear(in_features=24, out_features=24, bias=True)
+    )
+    (global_m2): GlobalAgg(
+      (fc): Linear(in_features=1024, out_features=1, bias=True)
+      (proj1): Conv2d(24, 24, kernel_size=(1, 1), stride=(1, 1))
+      (proj2): Linear(in_features=24, out_features=24, bias=True)
+      (proj3): Linear(in_features=24, out_features=24, bias=True)
+    )
+    (other_stp_modules): Sequential(
+      (0): D2DTInput(
+        (conv1): Conv3d(24, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(36, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(48, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(60, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(72, 24, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (1): GlobalAgg(
+        (fc): Linear(in_features=1024, out_features=1, bias=True)
+        (proj1): Conv2d(24, 24, kernel_size=(1, 1), stride=(1, 1))
+        (proj2): Linear(in_features=24, out_features=24, bias=True)
+        (proj3): Linear(in_features=24, out_features=24, bias=True)
+      )
+      (2): D2DTInput(
+        (conv1): Conv3d(24, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv2): Conv3d(36, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv3): Conv3d(48, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv4): Conv3d(60, 12, kernel_size=(1, 3, 3), stride=(1, 1, 1), padding=(0, 1, 1))
+        (conv5): Conv3d(72, 24, kernel_size=(3, 1, 1), stride=(1, 1, 1), padding=(1, 0, 0))
+        (lrelu): LeakyReLU(negative_slope=0.2, inplace=True)
+      )
+      (3): GlobalAgg(
+        (fc): Linear(in_features=1024, out_features=1, bias=True)
+        (proj1): Conv2d(24, 24, kernel_size=(1, 1), stride=(1, 1))
+        (proj2): Linear(in_features=24, out_features=24, bias=True)
+        (proj3): Linear(in_features=24, out_features=24, bias=True)
+      )
+    )
+    (tail): Sequential(
+      (0): LeakyReLU(negative_slope=0.2, inplace=True)
+      (1): Conv3d(24, 12, kernel_size=(1, 1, 1), stride=(1, 1, 1))
+    )
+  )
+  (Quantization): Quantization()
+)
+21-08-14 01:11:41.294 - INFO: Loading model for G [/data_video/code/SelfC/selfc_framework/experiments/train_h265_suggrogate_q16_01_noclos_decay/models/300000_G.pth] ...
+21-08-14 01:11:41.403 - INFO: Model [SelfCModel] is created.
+21-08-14 01:11:41.403 - INFO: 
+Testing [selfc_beauty]...
+21-08-14 01:13:13.836 - INFO: selfc_beauty_0_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.015686 dB.
+21-08-14 01:13:20.559 - INFO: selfc_beauty_0_im1.png - PSNR: 33.951895 dB; SSIM: 0.893667. LR PSNR: 37.045991 dB; SSIM: 0.874637.
+21-08-14 01:14:29.694 - INFO: selfc_beauty_1_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.014654 dB.
+21-08-14 01:14:37.466 - INFO: selfc_beauty_1_im1.png - PSNR: 34.175178 dB; SSIM: 0.895298. LR PSNR: 37.244947 dB; SSIM: 0.876960.
+21-08-14 01:15:48.152 - INFO: selfc_beauty_2_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.015993 dB.
+21-08-14 01:15:56.477 - INFO: selfc_beauty_2_im1.png - PSNR: 34.113347 dB; SSIM: 0.897582. LR PSNR: 37.164933 dB; SSIM: 0.879263.
+21-08-14 01:17:10.329 - INFO: selfc_beauty_3_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.015301 dB.
+21-08-14 01:17:18.255 - INFO: selfc_beauty_3_im1.png - PSNR: 34.106808 dB; SSIM: 0.900790. LR PSNR: 37.098622 dB; SSIM: 0.881810.
+21-08-14 01:18:40.474 - INFO: selfc_beauty_4_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.015603 dB.
+21-08-14 01:18:50.293 - INFO: selfc_beauty_4_im1.png - PSNR: 34.104551 dB; SSIM: 0.900151. LR PSNR: 37.102997 dB; SSIM: 0.880567.
+21-08-14 01:20:07.377 - INFO: selfc_beauty_5_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.014442 dB.
+21-08-14 01:20:16.593 - INFO: selfc_beauty_5_im1.png - PSNR: 34.100238 dB; SSIM: 0.897430. LR PSNR: 37.168948 dB; SSIM: 0.877999.
+21-08-14 01:20:16.693 - INFO: ----Average PSNR/SSIM results for selfc_beauty----
+	psnr: 34.092003 db; ssim: 0.897487. LR psnr: 37.137740 db; ssim: 0.878539.
+
+21-08-14 01:20:16.694 - INFO: ----Average Compression results for selfc_beauty----
+	 ave_video_distor_loss: 0.000000; ave_video_bpp: 0.000000dB. ave_img_distor_loss: 0.000000; ave_img_bpp: 0.015280dB.
+
+21-08-14 01:20:16.721 - INFO: 
+Testing [selfc_bosphorus]...
+21-08-14 01:21:57.264 - INFO: selfc_bosphorus_0_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.017443 dB.
+21-08-14 01:22:03.941 - INFO: selfc_bosphorus_0_im1.png - PSNR: 36.961845 dB; SSIM: 0.972582. LR PSNR: 38.903155 dB; SSIM: 0.956866.
+21-08-14 01:23:16.898 - INFO: selfc_bosphorus_1_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.017807 dB.
+21-08-14 01:23:27.927 - INFO: selfc_bosphorus_1_im1.png - PSNR: 37.030138 dB; SSIM: 0.972553. LR PSNR: 38.917994 dB; SSIM: 0.957010.
+21-08-14 01:24:45.277 - INFO: selfc_bosphorus_2_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.017634 dB.
+21-08-14 01:24:55.346 - INFO: selfc_bosphorus_2_im1.png - PSNR: 37.194262 dB; SSIM: 0.972632. LR PSNR: 38.968703 dB; SSIM: 0.956962.
+21-08-14 01:26:12.199 - INFO: selfc_bosphorus_3_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.017327 dB.
+21-08-14 01:26:21.046 - INFO: selfc_bosphorus_3_im1.png - PSNR: 37.360368 dB; SSIM: 0.972562. LR PSNR: 39.072714 dB; SSIM: 0.956767.
+21-08-14 01:27:38.894 - INFO: selfc_bosphorus_4_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.017547 dB.
+21-08-14 01:27:50.825 - INFO: selfc_bosphorus_4_im1.png - PSNR: 37.377746 dB; SSIM: 0.972347. LR PSNR: 39.077334 dB; SSIM: 0.956214.
+21-08-14 01:29:18.829 - INFO: selfc_bosphorus_5_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.017929 dB.
+21-08-14 01:29:29.638 - INFO: selfc_bosphorus_5_im1.png - PSNR: 37.417633 dB; SSIM: 0.972256. LR PSNR: 39.030413 dB; SSIM: 0.955926.
+21-08-14 01:29:30.373 - INFO: ----Average PSNR/SSIM results for selfc_bosphorus----
+	psnr: 37.223665 db; ssim: 0.972489. LR psnr: 38.995052 db; ssim: 0.956624.
+
+21-08-14 01:29:30.374 - INFO: ----Average Compression results for selfc_bosphorus----
+	 ave_video_distor_loss: 0.000000; ave_video_bpp: 0.000000dB. ave_img_distor_loss: 0.000000; ave_img_bpp: 0.017614dB.
+
+21-08-14 01:29:30.415 - INFO: 
+Testing [selfc_honeybee]...
+21-08-14 01:31:12.785 - INFO: selfc_honeybee_0_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.004729 dB.
+21-08-14 01:31:19.896 - INFO: selfc_honeybee_0_im1.png - PSNR: 36.007568 dB; SSIM: 0.973665. LR PSNR: 38.160252 dB; SSIM: 0.958225.
+21-08-14 01:32:33.648 - INFO: selfc_honeybee_1_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.004008 dB.
+21-08-14 01:32:44.733 - INFO: selfc_honeybee_1_im1.png - PSNR: 36.072439 dB; SSIM: 0.973986. LR PSNR: 38.231519 dB; SSIM: 0.958749.
+21-08-14 01:34:18.799 - INFO: selfc_honeybee_2_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.003976 dB.
+21-08-14 01:34:27.514 - INFO: selfc_honeybee_2_im1.png - PSNR: 36.115144 dB; SSIM: 0.974158. LR PSNR: 38.305304 dB; SSIM: 0.959288.
+21-08-14 01:35:41.596 - INFO: selfc_honeybee_3_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.003718 dB.
+21-08-14 01:35:50.942 - INFO: selfc_honeybee_3_im1.png - PSNR: 36.137858 dB; SSIM: 0.974222. LR PSNR: 38.351281 dB; SSIM: 0.959608.
+21-08-14 01:37:17.674 - INFO: selfc_honeybee_4_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.004219 dB.
+21-08-14 01:37:27.663 - INFO: selfc_honeybee_4_im1.png - PSNR: 36.117439 dB; SSIM: 0.974108. LR PSNR: 38.307755 dB; SSIM: 0.959320.
+21-08-14 01:38:42.193 - INFO: selfc_honeybee_5_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.004574 dB.
+21-08-14 01:38:50.240 - INFO: selfc_honeybee_5_im1.png - PSNR: 36.083926 dB; SSIM: 0.973860. LR PSNR: 38.233674 dB; SSIM: 0.958921.
+21-08-14 01:38:50.843 - INFO: ----Average PSNR/SSIM results for selfc_honeybee----
+	psnr: 36.089062 db; ssim: 0.974000. LR psnr: 38.264964 db; ssim: 0.959019.
+
+21-08-14 01:38:50.844 - INFO: ----Average Compression results for selfc_honeybee----
+	 ave_video_distor_loss: 0.000000; ave_video_bpp: 0.000000dB. ave_img_distor_loss: 0.000000; ave_img_bpp: 0.004204dB.
+
+21-08-14 01:38:50.872 - INFO: 
+Testing [selfc_jockey]...
+21-08-14 01:40:28.411 - INFO: selfc_jockey_0_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.016182 dB.
+21-08-14 01:40:36.296 - INFO: selfc_jockey_0_im1.png - PSNR: 36.517757 dB; SSIM: 0.964574. LR PSNR: 38.212323 dB; SSIM: 0.949152.
+21-08-14 01:41:56.969 - INFO: selfc_jockey_1_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.019149 dB.
+21-08-14 01:42:05.350 - INFO: selfc_jockey_1_im1.png - PSNR: 36.619322 dB; SSIM: 0.965742. LR PSNR: 38.106810 dB; SSIM: 0.949248.
+21-08-14 01:43:24.668 - INFO: selfc_jockey_2_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.021807 dB.
+21-08-14 01:43:34.154 - INFO: selfc_jockey_2_im1.png - PSNR: 36.478857 dB; SSIM: 0.963751. LR PSNR: 38.006568 dB; SSIM: 0.947175.
+21-08-14 01:44:50.969 - INFO: selfc_jockey_3_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.024690 dB.
+21-08-14 01:45:02.219 - INFO: selfc_jockey_3_im1.png - PSNR: 36.603193 dB; SSIM: 0.953908. LR PSNR: 38.270955 dB; SSIM: 0.939329.
+21-08-14 01:46:18.793 - INFO: selfc_jockey_4_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.014397 dB.
+21-08-14 01:46:27.062 - INFO: selfc_jockey_4_im1.png - PSNR: 37.971876 dB; SSIM: 0.950431. LR PSNR: 39.899748 dB; SSIM: 0.939933.
+21-08-14 01:47:46.021 - INFO: selfc_jockey_5_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.016357 dB.
+21-08-14 01:47:55.322 - INFO: selfc_jockey_5_im1.png - PSNR: 37.406992 dB; SSIM: 0.954332. LR PSNR: 39.282314 dB; SSIM: 0.942540.
+21-08-14 01:47:56.078 - INFO: ----Average PSNR/SSIM results for selfc_jockey----
+	psnr: 36.932999 db; ssim: 0.958790. LR psnr: 38.629786 db; ssim: 0.944563.
+
+21-08-14 01:47:56.078 - INFO: ----Average Compression results for selfc_jockey----
+	 ave_video_distor_loss: 0.000000; ave_video_bpp: 0.000000dB. ave_img_distor_loss: 0.000000; ave_img_bpp: 0.018764dB.
+
+21-08-14 01:47:56.112 - INFO: 
+Testing [selfc_readysetgo]...
+21-08-14 01:49:39.413 - INFO: selfc_readysetgo_0_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.027088 dB.
+21-08-14 01:49:51.692 - INFO: selfc_readysetgo_0_im1.png - PSNR: 33.727905 dB; SSIM: 0.974413. LR PSNR: 36.112970 dB; SSIM: 0.959873.
+21-08-14 01:51:13.937 - INFO: selfc_readysetgo_1_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.033298 dB.
+21-08-14 01:51:23.869 - INFO: selfc_readysetgo_1_im1.png - PSNR: 34.634900 dB; SSIM: 0.973744. LR PSNR: 36.378237 dB; SSIM: 0.956936.
+21-08-14 01:53:01.265 - INFO: selfc_readysetgo_2_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.038600 dB.
+21-08-14 01:53:12.009 - INFO: selfc_readysetgo_2_im1.png - PSNR: 34.471132 dB; SSIM: 0.971964. LR PSNR: 36.098171 dB; SSIM: 0.954141.
+21-08-14 01:54:30.139 - INFO: selfc_readysetgo_3_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.040965 dB.
+21-08-14 01:54:41.609 - INFO: selfc_readysetgo_3_im1.png - PSNR: 33.575477 dB; SSIM: 0.972681. LR PSNR: 35.385540 dB; SSIM: 0.953257.
+21-08-14 01:56:09.350 - INFO: selfc_readysetgo_4_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.042495 dB.
+21-08-14 01:56:18.055 - INFO: selfc_readysetgo_4_im1.png - PSNR: 33.062043 dB; SSIM: 0.973978. LR PSNR: 34.868552 dB; SSIM: 0.954548.
+21-08-14 01:57:44.206 - INFO: selfc_readysetgo_5_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.033939 dB.
+21-08-14 01:57:59.009 - INFO: selfc_readysetgo_5_im1.png - PSNR: 32.288924 dB; SSIM: 0.974795. LR PSNR: 34.735076 dB; SSIM: 0.958020.
+21-08-14 01:57:59.860 - INFO: ----Average PSNR/SSIM results for selfc_readysetgo----
+	psnr: 33.626730 db; ssim: 0.973596. LR psnr: 35.596424 db; ssim: 0.956129.
+
+21-08-14 01:57:59.860 - INFO: ----Average Compression results for selfc_readysetgo----
+	 ave_video_distor_loss: 0.000000; ave_video_bpp: 0.000000dB. ave_img_distor_loss: 0.000000; ave_img_bpp: 0.036064dB.
+
+21-08-14 01:57:59.913 - INFO: 
+Testing [selfc_shakendry]...
+21-08-14 01:59:42.224 - INFO: selfc_shakendry_0_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.049446 dB.
+21-08-14 01:59:50.414 - INFO: selfc_shakendry_0_im1.png - PSNR: 33.051335 dB; SSIM: 0.935300. LR PSNR: 34.946629 dB; SSIM: 0.906868.
+21-08-14 02:01:11.601 - INFO: selfc_shakendry_1_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.026921 dB.
+21-08-14 02:01:23.530 - INFO: selfc_shakendry_1_im1.png - PSNR: 34.326702 dB; SSIM: 0.947539. LR PSNR: 36.124115 dB; SSIM: 0.922824.
+21-08-14 02:02:43.483 - INFO: selfc_shakendry_2_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.014641 dB.
+21-08-14 02:02:52.832 - INFO: selfc_shakendry_2_im1.png - PSNR: 35.296648 dB; SSIM: 0.961493. LR PSNR: 37.233770 dB; SSIM: 0.941656.
+21-08-14 02:02:53.568 - INFO: ----Average PSNR/SSIM results for selfc_shakendry----
+	psnr: 34.224895 db; ssim: 0.948110. LR psnr: 36.101505 db; ssim: 0.923783.
+
+21-08-14 02:02:53.569 - INFO: ----Average Compression results for selfc_shakendry----
+	 ave_video_distor_loss: 0.000000; ave_video_bpp: 0.000000dB. ave_img_distor_loss: 0.000000; ave_img_bpp: 0.030336dB.
+
+21-08-14 02:02:53.599 - INFO: 
+Testing [selfc_yachtride]...
+21-08-14 02:04:46.283 - INFO: selfc_yachtride_0_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.041231 dB.
+21-08-14 02:04:58.181 - INFO: selfc_yachtride_0_im1.png - PSNR: 33.276722 dB; SSIM: 0.966239. LR PSNR: 36.286045 dB; SSIM: 0.947801.
+21-08-14 02:06:22.575 - INFO: selfc_yachtride_1_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.040973 dB.
+21-08-14 02:06:32.867 - INFO: selfc_yachtride_1_im1.png - PSNR: 33.357260 dB; SSIM: 0.968099. LR PSNR: 36.250229 dB; SSIM: 0.950570.
+21-08-14 02:08:04.857 - INFO: selfc_yachtride_2_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.047559 dB.
+21-08-14 02:08:13.096 - INFO: selfc_yachtride_2_im1.png - PSNR: 33.203796 dB; SSIM: 0.964842. LR PSNR: 35.823338 dB; SSIM: 0.945822.
+21-08-14 02:09:32.888 - INFO: selfc_yachtride_3_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.051853 dB.
+21-08-14 02:09:40.952 - INFO: selfc_yachtride_3_im1.png - PSNR: 33.356291 dB; SSIM: 0.961344. LR PSNR: 35.661573 dB; SSIM: 0.941162.
+21-08-14 02:11:01.221 - INFO: selfc_yachtride_4_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.060345 dB.
+21-08-14 02:11:10.085 - INFO: selfc_yachtride_4_im1.png - PSNR: 33.048098 dB; SSIM: 0.956681. LR PSNR: 35.225074 dB; SSIM: 0.934498.
+21-08-14 02:12:30.502 - INFO: selfc_yachtride_5_im1.png - video_distor_loss: 0.000000; video_bpp: 0.000000 dB; mimick_loss: 0.000000; img_bpp: 0.063330 dB.
+21-08-14 02:12:40.048 - INFO: selfc_yachtride_5_im1.png - PSNR: 33.207999 dB; SSIM: 0.954172. LR PSNR: 35.201213 dB; SSIM: 0.931140.
+21-08-14 02:12:40.868 - INFO: ----Average PSNR/SSIM results for selfc_yachtride----
+	psnr: 33.241694 db; ssim: 0.961896. LR psnr: 35.741245 db; ssim: 0.941832.
+
+21-08-14 02:12:40.868 - INFO: ----Average Compression results for selfc_yachtride----
+	 ave_video_distor_loss: 0.000000; ave_video_bpp: 0.000000dB. ave_img_distor_loss: 0.000000; ave_img_bpp: 0.050882dB.
+
+21-08-14 02:12:40.869 - INFO: ----Average PSNR/SSIM results for All dataset----
+	psnr: 35.061578 db; ssim: 0.955195. LR psnr: 37.209531 db; ssim: 0.937213.
+
+21-08-14 02:12:40.869 - INFO: ----Average Compression results for All dataset----
+	 ave_video_distor_loss: 0.000000; ave_video_bpp: 0.000000dB. ave_img_distor_loss: 0.000000; ave_img_bpp: 0.024735dB.
+
