@@ -48,8 +48,15 @@ Each group of UVG consists of 100 frames, which is consistent with the previous 
 
 Firstly, we download the pretrained models and save them to the folder `pretrained_models`.
 
+### Google Driver
+[Video rescaling model](https://drive.google.com/file/d/1v4bQRfaSHH3f5WegtF1d-7AqTJN6Y_kz/view?usp=sharing)
+[Video compression model](https://drive.google.com/file/d/1Gx3h4vxUdgaAKi3P4xMoaN6wXKdWP4_e/view?usp=sharing)
+
+If you have trouble in accessing the Google drive, please use 百度云盘(For chinese user)
+
 [Video rescaling model](https://pan.baidu.com/s/1XUmSDDzjaxfNxS4iS9se3w)(Password: e1xe)
 [Video compression model](https://pan.baidu.com/s/1M2rkLIW1dt1xWEywJwne5A)(Password: j5ff)
+
 
 ## Rescaling network for SelfC-large model
 ```
